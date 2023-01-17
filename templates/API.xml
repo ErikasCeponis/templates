@@ -1,8 +1,127 @@
 <templateSet group="API">
-  <template name="webhosting" value="@Epic(&quot;[WebHosting] $SECTION$&quot;)&#10;@Feature(&quot;$METHOD$ $PATH$&quot;)&#10;@Link(name = &quot;WebHosting API documentation (STAGE)&quot;, type = &quot;webHostingStage&quot;)&#10;@ExtendWith(ApiRetry.class)" description="webhosting request sepcifications" toReformat="false" toShortenFQNames="true">
-    <variable name="SECTION" expression="" defaultValue="" alwaysStopAt="true" />
-    <variable name="METHOD" expression="" defaultValue="" alwaysStopAt="true" />
-    <variable name="PATH" expression="" defaultValue="" alwaysStopAt="true" />
+  <template name="annotationsWebHosting" value="@Epic(&quot;[WebHosting] $SECTION$&quot;)&#10;@Feature(&quot;$RESTMETHOD$ $ENDPOINT$&quot;)&#10;@Link(name = &quot;WebHosting API documentation (STAGE)&quot;, type = &quot;webHostingStage&quot;)&#10;@ExtendWith(ApiRetry.class)" description="WebHosting test class annotations" toReformat="false" toShortenFQNames="true">
+    <variable name="SECTION" expression="enum(&quot;Account&quot;, &quot;Access Logs&quot;, &quot;Activity Logs&quot;, &quot;Auth&quot;, &quot;Addons&quot;, &quot;Auto Installer&quot;, &quot;Cache&quot;, &quot;Cron Jobs&quot;, &quot;Databases&quot;, &quot;Details&quot;, &quot;Domains&quot;, &quot;Emails&quot;, &quot;Files&quot;, &quot;GIT&quot;, &quot;Migration&quot;, &quot;Orders&quot;, &quot;Other&quot;, &quot;PHP&quot;, &quot;Sections&quot;, &quot;SEO&quot;, &quot;Server&quot;, &quot;SSH&quot;, &quot;SSL&quot;, &quot;Statistics&quot;, &quot;Wordpress&quot;, &quot;Plan&quot;, &quot;Page Speed&quot;, &quot;Malware&quot;, &quot;Website&quot;, &quot;Website Copy&quot;, &quot;Website Restore&quot;, &quot;Website Builder&quot;)" defaultValue="" alwaysStopAt="false" />
+    <variable name="RESTMETHOD" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="ENDPOINT" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="annotationsHPayments" value="@Epic(&quot;[hPayments] $SECTION$&quot;)&#10;@Feature(&quot;$RESTMETHOD$ $ENDPOINT$&quot;)&#10;@Link(name = &quot;hPayments API documentation (STAGE)&quot;, type = &quot;hPayments&quot;)" description="hPayments test class annotations" toReformat="false" toShortenFQNames="true">
+    <variable name="SECTION" expression="enum(&quot;System&quot;, &quot;Recurrent Payments&quot;,  &quot;Payments&quot;, &quot;Front Errors&quot;, &quot;Future Payments&quot;, &quot;Refunds&quot;, &quot;Verify charge&quot;, &quot;Stored Payment Methods&quot;, &quot;Legacy Direct Payments&quot;, &quot;Direct Payments&quot;, &quot;JWT Payments&quot;, &quot;Webhooks&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="RESTMETHOD" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="ENDPOINT" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="successTest" value="private static final $StepsClass$Steps $Method$ = new $StepsClass$Steps();&#10;&#10;@Test&#10;@Story(&quot;[Success] $RestMethod$$TestMethod$&quot;)&#10;public void $Method$Test() {&#10;    $Method$.success(API.USERS.$SELECTUSER$);&#10;}" description="API test template for Success case" toReformat="false" toShortenFQNames="true">
+    <variable name="StepsClass" expression="substringBefore(className(),&quot;Test&quot;)" defaultValue="" alwaysStopAt="false" />
+    <variable name="Method" expression="camelCase(substringBefore(className(),&quot;Test&quot;))" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SELECTUSER" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="noauthTest" value="@Test&#10;@Story(&quot;[Security] $RestMethod$$TestMethod$ without Authentication&quot;)&#10;public void $Method$NoAuthTest() {&#10;    $Method$.noAuth(API.USERS.$SELECTUSER$);&#10;}" description="API test template for noAuth case" toReformat="false" toShortenFQNames="true">
+    <variable name="Method" expression="camelCase(substringBefore(className(),&quot;Test&quot;))" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SELECTUSER" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="securityTest" value="@Test&#10;@Story(&quot;[Security] $RestMethod$$TestMethod$ with other client data&quot;)&#10;public void $Method$SecurityTest() {&#10;    $Method$.security(API.USERS.$SELECTUSER$);&#10;}" description="API test template for Security case" toReformat="false" toShortenFQNames="true">
+    <variable name="Method" expression="camelCase(substringBefore(className(),&quot;Test&quot;))" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SELECTUSER" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="failureTest" value="@Test&#10;@Story(&quot;[Failure] $RestMethod$$TestMethod$ $FailureCaseDescription$&quot;)&#10;public void $Method$$FailureCase1$Test() {&#10;    $Method$.$FailureCase2$(API.USERS.$SELECTUSER$);&#10;}" description="API test template for Failure case" toReformat="false" toShortenFQNames="true">
+    <variable name="Method" expression="camelCase(substringBefore(className(),&quot;Test&quot;))" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="FailureCaseDescription" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="FailureCase1" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="FailureCase2" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SELECTUSER" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="allTest" value="private static final $StepsClass$Steps $Method$ = new $StepsClass$Steps();&#10;&#10;@Test&#10;@Story(&quot;[Success] $RestMethod$$TestMethod$&quot;)&#10;public void $Method$Test() {&#10;    $Method$.success(API.USERS.$SELECTUSER1$);&#10;}&#10;&#10;@Test&#10;@Story(&quot;[Security] $RestMethod$$TestMethod$ without Authentication&quot;)&#10;public void $Method$NoAuthTest() {&#10;    $Method$.noAuth(API.USERS.$SELECTUSER2$);&#10;}&#10;&#10;@Test&#10;@Story(&quot;[Failure] $RestMethod$$TestMethod$ $FailureCaseDescription$&quot;)&#10;public void $Method$$FailureCase1$Test() {&#10;    $Method$.$FailureCase2$(API.USERS.$SELECTUSER3$);&#10;}&#10;" description="API test template for Success case" toReformat="false" toShortenFQNames="true">
+    <variable name="StepsClass" expression="substringBefore(className(),&quot;Test&quot;)" defaultValue="" alwaysStopAt="false" />
+    <variable name="Method" expression="camelCase(substringBefore(className(),&quot;Test&quot;))" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SELECTUSER1" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SELECTUSER2" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="FailureCaseDescription" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="FailureCase1" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="FailureCase2" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SELECTUSER3" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="successSteps" value="private RequestSpecification requestSpec;&#10;&#10;@Step(&quot;$RestMethod$$TestMethod$&quot;)&#10;public $ClassName$ success(ApiUser user) {&#10;    ApiUserHosting hosting = user.HOSTING.$SelectHosting$;&#10;    requestSpec = getRequestSpecs(user, hosting);&#10;    given().spec(requestSpec)&#10;            .baseUri(API.URLS.$SelectUrl$)&#10;            .when()&#10;            .$SelectRestMethod$(&quot;$EndpointPath$&quot;)&#10;            .then()&#10;            .assertThat()&#10;            .statusCode(200)&#10;            .body(&quot;data&quot;, notNullValue());&#10;    return this;&#10;}" description="API Steps template for Success case" toReformat="false" toShortenFQNames="true">
+    <variable name="ClassName" expression="className()" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SelectHosting" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectUrl" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectRestMethod" expression="enum(&quot;get&quot;, &quot;post&quot;, &quot;delete&quot;, &quot;patch&quot;, &quot;put&quot;) " defaultValue="" alwaysStopAt="true" />
+    <variable name="EndpointPath" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="noauthSteps" value="@Step(&quot;$RestMethod$$TestMethod$ without Authentication&quot;)&#10;public $ClassName$ noAuth(ApiUser user) {&#10;    ApiUserHosting hosting = user.HOSTING.$SelectHosting$;&#10;    requestSpec = getRequestSpecs(user, hosting);&#10;    given().spec(requestSpec)&#10;            .baseUri(API.URLS.$SelectUrl$)&#10;            .auth().none()&#10;            .when()&#10;            .$SelectRestMethod$(&quot;$EndpointPath$&quot;)&#10;            .then()&#10;            .assertThat()&#10;            .statusCode(401)&#10;            .body(&quot;error.message&quot;, equalTo(&quot;Unauthenticated.&quot;));&#10;    return this;&#10;}" description="API Steps template for noAuth case" toReformat="false" toShortenFQNames="true">
+    <variable name="ClassName" expression="className()" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SelectHosting" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectUrl" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectRestMethod" expression="enum(&quot;get&quot;, &quot;post&quot;, &quot;delete&quot;, &quot;patch&quot;, &quot;put&quot;) " defaultValue="" alwaysStopAt="true" />
+    <variable name="EndpointPath" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="securitySteps" value="@Step(&quot;$RestMethod$$TestMethod$ security&quot;)&#10;public $ClassName$ security(ApiUser user) {&#10;    ApiUserHosting hosting = user.HOSTING.$SelectHosting$;&#10;    requestSpec = getRequestSpecs(user, hosting);&#10;    given().spec(requestSpec)&#10;            .baseUri(API.URLS.$SelectUrl$)&#10;            .config(RestAssuredConfig.config().&#10;                    headerConfig(HeaderConfig.headerConfig()&#10;                            .overwriteHeadersWithName(&quot;X-Hpanel-$SelectHeader$&quot;)))&#10;            .header(&quot;X-Hpanel-$SelectHeader$&quot;, &quot;$InputNewHeaderValue$&quot;)&#10;            .when()&#10;            .$SelectRestMethod$(&quot;$EndpointPath$&quot;)&#10;            .then()&#10;            .assertThat()&#10;            .statusCode($StatusCode$)&#10;            .body(&quot;error.message&quot;, equalTo(&quot;$AddErrorMessage$&quot;));&#10;    return this;&#10;}" description="API Steps template for Security case" toReformat="false" toShortenFQNames="true">
+    <variable name="ClassName" expression="className()" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SelectHosting" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectUrl" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectHeader" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="InputNewHeaderValue" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectRestMethod" expression="enum(&quot;get&quot;, &quot;post&quot;, &quot;delete&quot;, &quot;patch&quot;, &quot;put&quot;) " defaultValue="" alwaysStopAt="true" />
+    <variable name="EndpointPath" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="StatusCode" expression="enum(&quot;400&quot;, &quot;422&quot;, &quot;432&quot;, &quot;404&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="AddErrorMessage" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="allSteps" value="private RequestSpecification requestSpec;&#10;&#10;@Step(&quot;$RestMethod$$TestMethod$&quot;)&#10;public $ClassName$ success(ApiUser user) {&#10;    ApiUserHosting hosting = user.HOSTING.$SelectHosting$;&#10;    requestSpec = getRequestSpecs(user, hosting);&#10;    given().spec(requestSpec)&#10;            .baseUri(API.URLS.$SelectUrl$)&#10;            .when()&#10;            .$SelectRestMethod$(&quot;$EndpointPath$&quot;)&#10;            .then()&#10;            .assertThat()&#10;            .statusCode(200)&#10;            .body(&quot;data&quot;, notNullValue());&#10;    return this;&#10;}&#10;&#10;@Step(&quot;$RestMethod$$TestMethod$ without Authentication&quot;)&#10;public $ClassName$ noAuth(ApiUser user) {&#10;    ApiUserHosting hosting = user.HOSTING.$SelectHosting$;&#10;    requestSpec = getRequestSpecs(user, hosting);&#10;    given().spec(requestSpec)&#10;            .baseUri(API.URLS.$SelectUrl$)&#10;            .auth().none()&#10;            .when()&#10;            .$SelectRestMethod$(&quot;$EndpointPath$&quot;)&#10;            .then()&#10;            .assertThat()&#10;            .statusCode(401)&#10;            .body(&quot;error.message&quot;, equalTo(&quot;Unauthenticated.&quot;));&#10;    return this;&#10;}&#10;&#10;@Step(&quot;$RestMethod$$TestMethod$ security&quot;)&#10;public $ClassName$ security(ApiUser user) {&#10;    ApiUserHosting hosting = user.HOSTING.$SelectHosting$;&#10;    requestSpec = getRequestSpecs(user, hosting);&#10;    given().spec(requestSpec)&#10;            .baseUri(API.URLS.$SelectUrl$)&#10;            .config(RestAssuredConfig.config().&#10;                    headerConfig(HeaderConfig.headerConfig()&#10;                            .overwriteHeadersWithName(&quot;X-Hpanel-$SelectHeader$&quot;)))&#10;            .header(&quot;X-Hpanel-$SelectHeader$&quot;, &quot;$InputNewHeaderValue$&quot;)&#10;            .when()&#10;            .$SelectRestMethod$(&quot;$EndpointPath$&quot;)&#10;            .then()&#10;            .assertThat()&#10;            .statusCode($StatusCode$)&#10;            .body(&quot;error.message&quot;, equalTo(&quot;$AddErrorMessage$&quot;));&#10;    return this;&#10;}" description="API Steps template for Success, noAuth and Security cases" toReformat="false" toShortenFQNames="true">
+    <variable name="ClassName" expression="className()" defaultValue="" alwaysStopAt="false" />
+    <variable name="RestMethod" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SelectHosting" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectUrl" expression="complete()" defaultValue="" alwaysStopAt="true" />
+    <variable name="SelectRestMethod" expression="enum(&quot;get&quot;, &quot;post&quot;, &quot;delete&quot;, &quot;patch&quot;, &quot;put&quot;) " defaultValue="" alwaysStopAt="true" />
+    <variable name="EndpointPath" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="TestMethod" expression="groovyScript(&quot;_1.substring(_1.indexOf(' '), _1.length())&quot; , spaceSeparated(substringBefore(className(),&quot;Steps&quot;)))" defaultValue="" alwaysStopAt="false" />
+    <variable name="SelectHeader" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="InputNewHeaderValue" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="StatusCode" expression="enum(&quot;400&quot;,&quot;422&quot;,&quot;432&quot;,&quot;404&quot;)" defaultValue="" alwaysStopAt="true" />
+    <variable name="AddErrorMessage" expression="" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_CODE" value="true" />
     </context>
