@@ -1,0 +1,10 @@
+<templateSet group="API">
+  <template name="webhosting" value="@Epic(&quot;[WebHosting] $SECTION$&quot;)&#10;@Feature(&quot;$METHOD$ $PATH$&quot;)&#10;@Link(name = &quot;WebHosting API documentation (STAGE)&quot;, type = &quot;webHostingStage&quot;)&#10;@ExtendWith(ApiRetry.class)" description="webhosting request sepcifications" toReformat="false" toShortenFQNames="true">
+    <variable name="SECTION" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="METHOD" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PATH" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+</templateSet>
