@@ -1,5 +1,5 @@
 <templateSet group="API">
-  <template name="annotationsWebHosting" value="@Epic(&quot;[WebHosting] $SECTION$&quot;)&#10;@Feature(&quot;$RESTMETHOD$ $ENDPOINT$&quot;)&#10;@Link(name = &quot;WebHosting API documentation (STAGE)&quot;, type = &quot;webHostingStage&quot;)&#10;@ExtendWith(ApiRetry.class)" description="WebHosting test class annotations" toReformat="false" toShortenFQNames="true">
+  <template name="annotationsWebHosting" value="import io.qameta.allure.Epic;&#10;import io.qameta.allure.Feature;&#10;import io.qameta.allure.Link;&#10;import io.qameta.allure.Story;&#10;import org.junit.jupiter.api.Test;&#10;import org.junit.jupiter.api.extension.ExtendWith;&#10;import utils.ApiRetry;&#10;&#10;import static testData.users.api.ApiTestData.API;&#10;&#10;@Epic(&quot;[WebHosting] $SECTION$&quot;)&#10;@Feature(&quot;$RESTMETHOD$ $ENDPOINT$&quot;)&#10;@Link(name = &quot;WebHosting API documentation (STAGE)&quot;, type = &quot;webHostingStage&quot;)&#10;@ExtendWith(ApiRetry.class)" description="WebHosting test class annotations" toReformat="false" toShortenFQNames="true">
     <variable name="SECTION" expression="enum(&quot;Account&quot;, &quot;Access Logs&quot;, &quot;Activity Logs&quot;, &quot;Auth&quot;, &quot;Addons&quot;, &quot;Auto Installer&quot;, &quot;Cache&quot;, &quot;Cron Jobs&quot;, &quot;Databases&quot;, &quot;Details&quot;, &quot;Domains&quot;, &quot;Emails&quot;, &quot;Files&quot;, &quot;GIT&quot;, &quot;Migration&quot;, &quot;Orders&quot;, &quot;Other&quot;, &quot;PHP&quot;, &quot;Sections&quot;, &quot;SEO&quot;, &quot;Server&quot;, &quot;SSH&quot;, &quot;SSL&quot;, &quot;Statistics&quot;, &quot;Wordpress&quot;, &quot;Plan&quot;, &quot;Page Speed&quot;, &quot;Malware&quot;, &quot;Website&quot;, &quot;Website Copy&quot;, &quot;Website Restore&quot;, &quot;Website Builder&quot;)" defaultValue="" alwaysStopAt="false" />
     <variable name="RESTMETHOD" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
     <variable name="ENDPOINT" expression="" defaultValue="" alwaysStopAt="true" />
@@ -7,7 +7,7 @@
       <option name="JAVA_CODE" value="true" />
     </context>
   </template>
-  <template name="annotationsHPayments" value="@Epic(&quot;[hPayments] $SECTION$&quot;)&#10;@Feature(&quot;$RESTMETHOD$ $ENDPOINT$&quot;)&#10;@Link(name = &quot;hPayments API documentation (STAGE)&quot;, type = &quot;hPayments&quot;)" description="hPayments test class annotations" toReformat="false" toShortenFQNames="true">
+  <template name="annotationsHPayments" value="import io.qameta.allure.Epic;&#10;import io.qameta.allure.Feature;&#10;import io.qameta.allure.Link;&#10;import io.qameta.allure.Story;&#10;import org.junit.jupiter.api.Test;&#10;&#10;import static testData.users.api.ApiTestData.API;&#10;&#10;@Epic(&quot;[hPayments] $SECTION$&quot;)&#10;@Feature(&quot;$RESTMETHOD$ $ENDPOINT$&quot;)&#10;@Link(name = &quot;hPayments API documentation (STAGE)&quot;, type = &quot;hPayments&quot;)" description="hPayments test class annotations" toReformat="false" toShortenFQNames="true">
     <variable name="SECTION" expression="enum(&quot;System&quot;, &quot;Recurrent Payments&quot;,  &quot;Payments&quot;, &quot;Front Errors&quot;, &quot;Future Payments&quot;, &quot;Refunds&quot;, &quot;Verify charge&quot;, &quot;Stored Payment Methods&quot;, &quot;Legacy Direct Payments&quot;, &quot;Direct Payments&quot;, &quot;JWT Payments&quot;, &quot;Webhooks&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="RESTMETHOD" expression="groovyScript(&quot;_1.substring(0, _1.indexOf(' ')).toUpperCase()&quot; , spaceSeparated(substringBefore(className(),&quot;Test&quot;)))" defaultValue="" alwaysStopAt="false" />
     <variable name="ENDPOINT" expression="" defaultValue="" alwaysStopAt="true" />
@@ -138,6 +138,16 @@
     <variable name="StatusCode" expression="enum(&quot;400&quot;, &quot;422&quot;, &quot;432&quot;, &quot;404&quot;)" defaultValue="" alwaysStopAt="true" />
     <variable name="JsonPath" expression="" defaultValue="" alwaysStopAt="true" />
     <variable name="AddErrorMessage" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="importStepsWebHosting" value="import io.qameta.allure.Step;&#10;import io.restassured.config.HeaderConfig;&#10;import io.restassured.config.RestAssuredConfig;&#10;import io.restassured.specification.RequestSpecification;&#10;import testData.users.api.ApiUserHosting;&#10;&#10;import static io.restassured.RestAssured.given;&#10;import static org.hamcrest.Matchers.*;&#10;import static testData.users.api.ApiTestData.API;&#10;import static utils.api.requestSpecifications.WebHostingRequestSpecifications.getRequestSpecs;" description="WebHosting steps class imports" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="importStepsHPayments" value="import io.qameta.allure.Step;&#10;import io.restassured.config.HeaderConfig;&#10;import io.restassured.config.RestAssuredConfig;&#10;import io.restassured.specification.RequestSpecification;&#10;import testData.users.api.ApiUser;&#10;&#10;import static io.restassured.RestAssured.given;&#10;import static org.hamcrest.Matchers.equalTo;&#10;import static utils.api.requestSpecifications.PaymentsRequestSpecifications.getRequestSpecsUser;" description="hPayments steps class imports" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="JAVA_CODE" value="true" />
     </context>
